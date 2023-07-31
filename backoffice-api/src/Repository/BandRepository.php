@@ -51,4 +51,9 @@ class BandRepository extends ServiceEntityRepository
         $this->_em->flush();
         return $band;
     }
+    public function remove(mixed $band): void
+    {
+        $this->_em->remove($band);
+        $this->_em->flush();
+    }
 }

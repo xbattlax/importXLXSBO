@@ -12,3 +12,27 @@ a {
 a:hover {
   background-color: #005580;
 }
+/* src/app/app.component.css */
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.nav-link {
+  color: #495057;
+  text-decoration: none;
+  padding: 10px;
+}
+
+.nav-link:hover {
+  color: #212529;
+}
+
+.nav-right {
+  display: flex;
+}

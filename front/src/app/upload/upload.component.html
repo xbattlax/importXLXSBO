@@ -1,0 +1,10 @@
+<!-- src/app/components/upload.component.html -->
+
+<div class="container">
+  <div>
+    <h1>Upload an Excel file</h1>
+    <input type="file" (change)="onFileSelected($event)" />
+    <button (click)="onUpload()">Upload</button>
+  </div>
+  <p>{{response}}</p>
+</div>

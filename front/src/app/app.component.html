@@ -1,8 +1,14 @@
+<header>
+  <nav class="nav">
+    <a class="nav-link" routerLink="/">Brand</a>
+    <div class="nav-right">
+      <a class="nav-link" routerLink="/upload">Upload</a>
+    </div>
+  </nav>
+</header>
+
+
 <div style="text-align:center">
   <h1>Welcome to {{ title }}!</h1>
 </div>
-<nav>
-  <a routerLink="/login">Login</a>
-  <a routerLink="/signup">Sign Up</a>
-</nav>
 <router-outlet></router-outlet>

@@ -13,6 +13,7 @@ use App\Repository\BandRepository;
 use App\State\BandProcessor;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[\Attribute]
 #[ORM\Entity(repositoryClass: BandRepository::class)]
@@ -22,11 +23,12 @@ use Doctrine\ORM\Mapping as ORM;
             uriTemplate: '/band',
         ),
         new Put(
-            uriTemplate: '/band/{id}',
+            uriTemplate: '/bands/{id}',
             requirements: ['id' => '\d+'],
+
         ),
         new Delete(
-            uriTemplate: '/band/{id}',
+            uriTemplate: '/bands/{id}',
             requirements: ['id' => '\d+'],
         ),
         new Post(
@@ -36,13 +38,14 @@ use Doctrine\ORM\Mapping as ORM;
             deserialize: false,
         ),
         new GetCollection(
-            uriTemplate: '/band',
+            uriTemplate: '/bands',
             paginationEnabled: false,
-            //security: 'is_granted("ROLE_ADMIN")',
+            normalizationContext: ['groups' => ['band:read']],
         ),
     ],
-    normalizationContext: ['groups' => ['band:read']],
-    denormalizationContext: ['groups' => ['band:write']],
+    processor: BandProcessor::class,
+    normalizationContext: ['groups' => ['band:read', 'band:write']],
+    denormalizationContext: ['groups' => ['band:read', 'band:write']],
 )
 ]
 class Band
@@ -53,44 +56,41 @@ class Band
     #[ApiProperty(identifier: true)]
     private int $id;
 
-    #[Band("band:read", "band:write")]
+    #[Groups(["band:read", "band:write"])]
     #[ORM\Column(length: 255)]
     private ?string $Name = null;
 
-    #[Band("band:read", "band:write")]
+    #[Groups(["band:read", "band:write"])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Origin = null;
 
-    #[Band("band:read", "band:write")]
+    #[Groups(["band:read", "band:write"])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $City = null;
 
-    #[Band("band:read", "band:write")]
+    #[Groups(["band:read", "band:write"])]
     #[ORM\Column(nullable: true)]
     private ?int $StartYear = null;
 
-    #[Band("band:read", "band:write")]
+    #[Groups(["band:read", "band:write"])]
     #[ORM\Column(nullable: true)]
     private ?int $EndYear = null;
 
-    #[Band("band:read", "band:write")]
+    #[Groups(["band:read", "band:write"])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Founder = null;
 
-    #[Band("band:read", "band:write")]
+    #[Groups(["band:read", "band:write"])]
     #[ORM\Column(nullable: true)]
     private ?int $Members = null;
 
-    #[Band("band:read", "band:write")]
+    #[Groups(["band:read", "band:write"])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $MusicalTrend = null;
 
-    #[Band("band:read", "band:write")]
+    #[Groups(["band:read", "band:write"])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $Presentation = null;
-
-    #[ORM\ManyToOne(inversedBy: 'bands')]
-    private ?User $belongTo = null;
 
     public function getId(): int
     {
@@ -201,18 +201,6 @@ class Band
     public function setPresentation(?string $Presentation): static
     {
         $this->Presentation = $Presentation;
-
-        return $this;
-    }
-
-    public function getBelongTo(): ?User
-    {
-        return $this->belongTo;
-    }
-
-    public function setBelongTo(?User $belongTo): static
-    {
-        $this->belongTo = $belongTo;
 
         return $this;
     }

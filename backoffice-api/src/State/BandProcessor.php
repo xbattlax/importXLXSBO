@@ -2,9 +2,12 @@
 
 namespace App\State;
 
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use ApiPlatform\State\ProcessorInterface;
+use App\Entity\Band;
 use App\Repository\BandRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -22,6 +25,14 @@ class BandProcessor implements ProcessorInterface
                 $bands->add($band);
             }
             return $bands;
+        }
+        elseif ($data instanceof Band && $operation instanceof Put) {
+            $this->bandRepository->save($data);
+            return $data;
+        }
+        elseif ($data instanceof Band && $operation instanceof Delete) {
+            $this->bandRepository->remove($data);
+            return $data;
         }
         else {
             throw new \Exception('Not implemented');

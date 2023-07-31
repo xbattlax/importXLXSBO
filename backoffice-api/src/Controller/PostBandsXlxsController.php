@@ -32,17 +32,13 @@ class PostBandsXlxsController extends AbstractController
             throw $this->createNotFoundException('The file is not a valid xlsx file');
         }
 
-        // Load the spreadsheet
         $spreadsheet = IOFactory::load($file->getPathname());
         $worksheet = $spreadsheet->getActiveSheet();
 
-        // Get the highest row number
         $highestRow = $worksheet->getHighestRow();
 
-        // Array to store the created Band entities
         $bands = new ArrayCollection();
 
-        // Iterate over each row
         for ($row = 2; $row <= $highestRow; $row++) {
             $band = new Band();
 
@@ -55,7 +51,6 @@ class PostBandsXlxsController extends AbstractController
                 ->setMembers($worksheet->getCellByColumnAndRow(7, $row)->getValue())
                 ->setMusicalTrend($worksheet->getCellByColumnAndRow(8, $row)->getValue())
                 ->setPresentation($worksheet->getCellByColumnAndRow(9, $row)->getValue())
-                ->setBelongTo($user)
             ;
 
             $this->bandRepository->save($band);

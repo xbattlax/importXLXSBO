@@ -1,0 +1,32 @@
+<!-- src/app/components/band.component.html -->
+
+<table class="styled-table">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Origin</th>
+    <th>City</th>
+    <th>Start Year</th>
+    <th>End Year</th>
+    <th>Founder</th>
+    <th>Members</th>
+    <th>Presentation</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let band of bands">
+    <td><input [(ngModel)]="band.Name" (blur)="updateBand(band)" /></td>
+    <td><input [(ngModel)]="band.Origin" (blur)="updateBand(band)" /></td>
+    <td><input [(ngModel)]="band.City" (blur)="updateBand(band)" /></td>
+    <td><input [(ngModel)]="band.StartYear" (blur)="updateBand(band)" /></td>
+    <td><input [(ngModel)]="band.EndYear" (blur)="updateBand(band)" /></td>
+    <td><input [(ngModel)]="band.Founder" (blur)="updateBand(band)" /></td>
+    <td><input [(ngModel)]="band.Members" (blur)="updateBand(band)" /></td>
+    <td><textarea rows="5" cols="50" [(ngModel)]="band.Presentation" (blur)="updateBand(band)"></textarea></td>
+    <td>
+      <button class="delete-btn" (click)="deleteBand(band['@id'])">Delete</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
